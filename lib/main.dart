@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
             fontSize: 18,
           ),
           decoration: InputDecoration(
-            labelText: "Nova Tarefa",
+            labelText: "Adicionar Tarefa",
             labelStyle: TextStyle(color: Colors.white),
           ),
         ),
