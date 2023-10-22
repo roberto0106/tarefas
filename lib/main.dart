@@ -68,15 +68,17 @@ class _HomeState extends State<Home> {
         itemBuilder: (BuildContext ctxt, int index) {
           final item = widget.items[index];
           // return Text(item.title!);
-          return CheckboxListTile(
-            title: Text(item.title!),
+          return Dismissible(
             key: item.id,
-            value: item.done,
-            onChanged: (value) {
-              setState(() {
-                item.done = value;
-              });
-            },
+            child: CheckboxListTile(
+              title: Text(item.title!),
+              value: item.done,
+              onChanged: (value) {
+                setState(() {
+                  item.done = value;
+                });
+              },
+            ),
           );
         },
       ),
