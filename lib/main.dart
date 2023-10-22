@@ -35,13 +35,22 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   var newTextFieldCtrl = TextEditingController();
 
+  void add() {
+    setState(() {
+      widget.items.add(
+        Item(title: newTextFieldCtrl.text, done: false),
+      );
+      newTextFieldCtrl.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
           controller: newTextFieldCtrl,
-          keyboardType: TextInputType.phone,
+          keyboardType: TextInputType.text,
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -68,6 +77,11 @@ class _HomeState extends State<Home> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: add,
+        child: Icon(Icons.add_circle),
+        backgroundColor: Colors.pink,
       ),
     );
   }
