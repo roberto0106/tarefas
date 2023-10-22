@@ -36,12 +36,14 @@ class _HomeState extends State<Home> {
   var newTextFieldCtrl = TextEditingController();
 
   void add() {
-    setState(() {
-      widget.items.add(
-        Item(title: newTextFieldCtrl.text, done: false),
-      );
-      newTextFieldCtrl.clear();
-    });
+    if (newTextFieldCtrl.text.trim().isNotEmpty) {
+      setState(() {
+        widget.items.add(
+          Item(title: newTextFieldCtrl.text, done: false),
+        );
+        newTextFieldCtrl.clear();
+      });
+    }
   }
 
   @override
