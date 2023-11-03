@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:tasklist/models/item.dart';
+import 'package:provider/provider.dart';
+import 'package:tasklist/providers/task_provider.dart';
+import 'package:tasklist/screems/home_screen.dart';
+
+import 'services/api_service.dart';
+import 'app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TaskProvider(
+        apiService:
+            ApiService(baseUrl: 'https://jsonplaceholder.typicode.com/todos/'),
+      ),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,81 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: Home(),
-    );
-  }
-}
-
-class Home extends StatefulWidget {
-  var items = <Item>[];
-
-  Home() {
-    items = [];
-    items.add(Item(title: "Item 1", done: false));
-    items.add(Item(title: "Item 2", done: true));
-    items.add(Item(title: "Item 3", done: false));
-  }
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  var newTextFieldCtrl = TextEditingController();
-
-  void add() {
-    if (newTextFieldCtrl.text.trim().isNotEmpty) {
-      setState(() {
-        widget.items.add(
-          Item(title: newTextFieldCtrl.text, done: false),
-        );
-        newTextFieldCtrl.clear();
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: TextFormField(
-          controller: newTextFieldCtrl,
-          keyboardType: TextInputType.text,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
-          decoration: InputDecoration(
-            labelText: "Adicionar Tarefa",
-            labelStyle: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
-      body: ListView.builder(
-        itemCount: widget.items.length,
-        itemBuilder: (BuildContext ctxt, int index) {
-          final item = widget.items[index];
-          // return Text(item.title!);
-          return Dismissible(
-            key: item.id,
-            child: CheckboxListTile(
-              title: Text(item.title!),
-              value: item.done,
-              onChanged: (value) {
-                setState(() {
-                  item.done = value;
-                });
-              },
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: add,
-        child: Icon(Icons.add_circle),
-        backgroundColor: Colors.pink,
-      ),
+      theme: AppTheme.light,
+      home: HomeScreen(),
     );
   }
 }
